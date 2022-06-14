@@ -32,26 +32,3 @@ jobs:
     # Runs a single command using the runners shell
     - name: Compile and run tests on robot code
       run: ./gradlew build
-      
-  wpiformat:
-    name: "wpiformat"
-    runs-on: ubuntu-latest
-    steps:
-     - uses: actions/checkout@v2
-     - name: Fetch all history and metadata
-       run: |
-         git fetch --prune --unshallow
-         git checkout -b pr
-         git branch -f main origin/main
-     - name: Set up Python 3.8
-       uses: actions/setup-python@v2
-       with:
-         python-version: 3.8
-     - name: Install clang-format
-       run: sudo apt-get update -q && sudo apt-get install -y clang-format-12
-     - name: Install wpiformat
-       run: pip3 install wpiformat
-     - name: Run
-       run: wpiformat -clang 12
-     - name: Check Output
-       run: git --no-pager diff --exit-code HEAD
