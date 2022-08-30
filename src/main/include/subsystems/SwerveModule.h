@@ -23,16 +23,18 @@ class SwerveModule {
   void setState(frc::SwerveModuleState state);
   frc::SwerveModuleState getState();
 
+  void drive(double speed);
 	void stop();
 
  private:
-  rev::CANSparkMax driveMotor;
-  rev::CANSparkMax turningMotor;
+  rev::CANSparkMax m_driveMotor;
+  rev::CANSparkMax m_turningMotor;
 
-  rev::SparkMaxRelativeEncoder driveEncoder = driveMotor.GetEncoder();
-  rev::SparkMaxRelativeEncoder turningEncoder = driveMotor.GetEncoder();
+  rev::SparkMaxRelativeEncoder m_driveEncoder = m_driveMotor.GetEncoder();
+  rev::SparkMaxRelativeEncoder m_turningEncoder = m_turningMotor.GetEncoder();
 
-  rev::SparkMaxPIDController turningController = driveMotor.GetPIDController();
+  rev::SparkMaxPIDController m_driveController = m_driveMotor.GetPIDController();
+  rev::SparkMaxPIDController m_turningController = m_turningMotor.GetPIDController();
 
-  frc::AnalogInput absoluteEncoder;
+  frc::AnalogInput m_absoluteEncoder;
 };
