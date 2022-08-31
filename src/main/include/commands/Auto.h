@@ -9,8 +9,7 @@
 
 #include "Constants.h"
 
-class Auto
-    : public frc2::CommandHelper<frc2::SequentialCommandGroup, Auto> {
-  public:
-    Auto();
+class Auto : public frc2::CommandHelper<frc2::SequentialCommandGroup, Auto> {
+ public:
+  Auto();
 };

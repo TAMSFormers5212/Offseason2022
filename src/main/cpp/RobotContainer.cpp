@@ -15,12 +15,11 @@ RobotContainer::RobotContainer() {
   ConfigureButtonBindings();
 
   m_drive.SetDefaultCommand(frc2::RunCommand(
-    [this] {
-      m_drive.TankDrive(m_controller.GetRawAxis(OIConstants::LY),
-                        -m_controller.GetRawAxis(OIConstants::RY));
-    },
-    {&m_drive}
-  ));
+      [this] {
+        m_drive.TankDrive(m_controller.GetRawAxis(OIConstants::LY),
+                          -m_controller.GetRawAxis(OIConstants::RY));
+      },
+      {&m_drive}));
 }
 
 void RobotContainer::ConfigureButtonBindings() {}

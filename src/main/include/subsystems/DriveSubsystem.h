@@ -4,13 +4,13 @@
 
 #pragma once
 
-#include <frc/drive/DifferentialDrive.h>
-#include <frc/motorcontrol/MotorControllerGroup.h>
+#include <frc/kinematics/SwerveDriveKinematics.h>
 #include <frc2/command/SubsystemBase.h>
-
-#include "Constants.h"
 #include "rev/CANSparkMax.h"
+#include "AHRS.h"
+
 #include "subsystems/SwerveModule.h"
+#include "Constants.h"
 
 using namespace SwerveConstants;
 
@@ -20,13 +20,25 @@ class DriveSubsystem : public frc2::SubsystemBase {
 
   void Periodic() override;
 
+  void drive(units::meters_per_second_t xSpeed, units::meters_per_second_t ySpeed, units::radians_per_second_t rotSpeed, bool fieldCentric);
   void TankDrive(double lStick, double rStick);
 
  private:
-  double m_maxOutput = 0.2;
+  frc::Translation2d m_frontLeftLocation{centerDistance, centerDistance};
+  frc::Translation2d m_frontRightLocation{centerDistance, -centerDistance};
+  frc::Translation2d m_backLeftLocation{-centerDistance, centerDistance};
+  frc::Translation2d m_backRightLocation{-centerDistance, -centerDistance};
 
-  SwerveModule m_module1{Module1::drivingMotorID, Module1::turningMotorID, 0};
-  SwerveModule m_module2{Module2::drivingMotorID, Module2::turningMotorID, 1};
-  SwerveModule m_module3{Module3::drivingMotorID, Module3::turningMotorID, 2};
-  SwerveModule m_module4{Module4::drivingMotorID, Module4::turningMotorID, 3};
+  frc::SwerveDriveKinematics<4> m_kinematics{
+    m_frontLeftLocation, 
+    m_frontRightLocation, 
+    m_backLeftLocation,
+    m_backRightLocation};
+
+  SwerveModule m_frontLeftModule{frontLeftModule::drivingMotorID, frontLeftModule::turningMotorID, frontLeftModule::encoderID};
+  SwerveModule m_frontRightModule{frontRightModule::drivingMotorID, frontRightModule::turningMotorID, frontRightModule::encoderID};
+  SwerveModule m_backLeftModule{backLeftModule::drivingMotorID, backLeftModule::turningMotorID, backLeftModule::encoderID};
+  SwerveModule m_backRightModule{backRightModule::drivingMotorID, backRightModule::turningMotorID, backRightModule::encoderID};
+
+  AHRS *ahrs = new AHRS(frc::SPI::Port::kMXP);
 };
