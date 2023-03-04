@@ -20,7 +20,9 @@ class DriveSubsystem : public frc2::SubsystemBase {
 
   void Periodic() override;
 
-  void drive(units::meters_per_second_t xSpeed, units::meters_per_second_t ySpeed, units::radians_per_second_t rotSpeed, bool fieldCentric);
+  void ResetEncoders();
+  void ResetHeading();
+  void Drive(units::meters_per_second_t xSpeed, units::meters_per_second_t ySpeed, units::radians_per_second_t rot, bool fieldCentric);
   void TankDrive(double lStick, double rStick);
 
  private:
@@ -35,10 +37,10 @@ class DriveSubsystem : public frc2::SubsystemBase {
     m_backLeftLocation,
     m_backRightLocation};
 
-  SwerveModule m_frontLeftModule{frontLeftModule::drivingMotorID, frontLeftModule::turningMotorID, frontLeftModule::encoderID};
-  SwerveModule m_frontRightModule{frontRightModule::drivingMotorID, frontRightModule::turningMotorID, frontRightModule::encoderID};
-  SwerveModule m_backLeftModule{backLeftModule::drivingMotorID, backLeftModule::turningMotorID, backLeftModule::encoderID};
-  SwerveModule m_backRightModule{backRightModule::drivingMotorID, backRightModule::turningMotorID, backRightModule::encoderID};
+  SwerveModule m_frontLeftModule{frontLeftModule::drivingMotorID, frontLeftModule::turningMotorID, frontLeftModule::encoderID, frontLeftModule::offset};
+  SwerveModule m_frontRightModule{frontRightModule::drivingMotorID, frontRightModule::turningMotorID, frontRightModule::encoderID, frontRightModule::offset};
+  SwerveModule m_backLeftModule{backLeftModule::drivingMotorID, backLeftModule::turningMotorID, backLeftModule::encoderID, backLeftModule::offset};
+  SwerveModule m_backRightModule{backRightModule::drivingMotorID, backRightModule::turningMotorID, backRightModule::encoderID, backRightModule::offset};
 
-  AHRS *ahrs = new AHRS(frc::SPI::Port::kMXP);
+  AHRS *m_ahrs = new AHRS(frc::SPI::Port::kMXP);
 };

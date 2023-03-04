@@ -11,34 +11,34 @@
 
 class SwerveModule {
  public:
-  SwerveModule(int drivePort, int turningPort, int encoderPort);
+  SwerveModule(int drivePort, int turningPort, int encoderPort, double offset);
 
-  void resetDriveMotor();
-  void resetTurningMotor();
-  double getDrivePosition();
-  double getTurningPosition();
-  double getDriveVelocity();
-  double getTurningVelocity();
-  void resetDriveEncoder();
-  void resetTurningEncoder();
+  void ResetDriveMotor();
+  void ResetTurningMotor();
+  double GetDrivePosition();
+  double GetTurningPosition();
+  double GetDriveVelocity();
+  double GetTurningVelocity();
+  void ResetDriveEncoder();
+  void ResetTurningEncoder();
 
-  void setState(frc::SwerveModuleState state);
-  frc::SwerveModuleState getState();
+  void SetState(frc::SwerveModuleState state, bool print);
+  frc::SwerveModuleState GetState();
 
-  void drive(double speed);
-  void stop();
+  void Drive(double speed);
+  void Stop();
 
  private:
+  double m_offset;
+  frc::SwerveModuleState m_lastState;
+
   rev::CANSparkMax m_driveMotor;
   rev::CANSparkMax m_turningMotor;
 
   rev::SparkMaxRelativeEncoder m_driveEncoder = m_driveMotor.GetEncoder();
   rev::SparkMaxRelativeEncoder m_turningEncoder = m_turningMotor.GetEncoder();
 
-  rev::SparkMaxPIDController m_driveController =
-      m_driveMotor.GetPIDController();
-  rev::SparkMaxPIDController m_turningController =
-      m_turningMotor.GetPIDController();
+  rev::SparkMaxPIDController m_turningController = m_turningMotor.GetPIDController();
 
   frc::AnalogInput m_absoluteEncoder;
 };

@@ -9,7 +9,10 @@
 
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
+#include "subsystems/WristSubsystem.h"
+#include "subsystems/ArmSubsystem.h"
 #include "subsystems/SwerveModule.h"
+#include "ctre/Phoenix.h"
 
 using namespace SwerveConstants;
 
@@ -20,10 +23,12 @@ class RobotContainer {
   frc2::Command* GetAutonomousCommand();
 
  private:
-  // The robot's subsystems and commands are defined here...
-  frc::GenericHID m_controller{0};
+  frc::GenericHID m_driveController{0};
+  frc::GenericHID m_armController{1};
 
   DriveSubsystem m_drive;
+  WristSubsystem m_wrist;
+  ArmSubsystem m_arm;
 
   void ConfigureButtonBindings();
 };
